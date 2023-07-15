@@ -1,4 +1,4 @@
-package com.example.multiserver.dto.request
+package com.example.multiserver.api.dto.request
 
 data class TestRequest (
     val test: String
