@@ -2,6 +2,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <logger name="org.hibernate.SQL_SLOW" level="WARN"/>
 
     <springProperty name="SLACK_WEBHOOK_URL" source="slack.webhook.url"/>
 
@@ -9,7 +10,7 @@
         <webhookUri>${SLACK_WEBHOOK_URL}</webhookUri>
         <channel>alert-test</channel>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %thread \(%logger{36}\) - %msg%n</pattern>
+            <pattern>%date %-5level - %msg%n</pattern>
         </layout>
         <username>Dev-Logger</username>
         <iconEmoji>:large_blue_circle:</iconEmoji>

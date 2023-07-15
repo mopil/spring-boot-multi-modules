@@ -2,14 +2,14 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <logger name="org.hibernate.SQL_SLOW" level="WARN"/>
 
     <springProperty name="SLACK_WEBHOOK_URL" source="slack.webhook.url"/>
-
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
         <webhookUri>${SLACK_WEBHOOK_URL}</webhookUri>
         <channel>alert-live</channel>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %thread \(%logger{36}\) - %msg%n</pattern>
+            <pattern>%date %-5level - %msg%n</pattern>
         </layout>
         <username>Live-Logger</username>
         <iconEmoji>:red_circle:</iconEmoji>
