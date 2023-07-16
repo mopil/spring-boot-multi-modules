@@ -1,4 +1,4 @@
-package com.example.multiserver.api.configuration
+package com.example.multiserver.api.config
 
 import com.example.multiserver.api.dto.response.ErrorResponse
 import com.example.multiserver.exception.BadRequestException
@@ -13,6 +13,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.client.HttpClientErrorException
+import org.springframework.web.client.HttpServerErrorException
+import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import org.springframework.web.multipart.MaxUploadSizeExceededException
 import org.springframework.web.multipart.support.MissingServletRequestPartException
@@ -50,6 +53,24 @@ class ControllerAdvice {
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse(ErrorType.BAD_REQUEST.message))
     }
+
+    @ExceptionHandler(
+        value = [
+            HttpServerErrorException::class,
+            HttpClientErrorException::class,
+        ]
+    )
+    fun handleRestClientException(
+        request: HttpServletRequest,
+        e: HttpStatusCodeException,
+    ): ResponseEntity<ErrorResponse> {
+        logger.warn("${request.requestURL} \nhandleRestClientException:${e.message}")
+        return ResponseEntity
+            .status(e.statusCode)
+            .body(ErrorResponse(e.message ?: "Unknown Error"))
+    }
+
+
 
     @ExceptionHandler(
         value = [
