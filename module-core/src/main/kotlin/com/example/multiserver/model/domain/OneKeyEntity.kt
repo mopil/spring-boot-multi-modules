@@ -6,7 +6,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity
-class SampleEntity(
+data class OneKeyEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long
+    val id: Long = 0L
 )
